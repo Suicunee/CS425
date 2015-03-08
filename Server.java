@@ -40,4 +40,18 @@ public class Server{
 		 
 	
 	}
+	
+	public static void main(String[] args){
+		int num = math.random();
+		Server myServer = new Server(9000, num, 1 );
+		new Thread(myServer).start();
+
+		try {
+		    Thread.sleep(20 * 1000);
+		} catch (InterruptedException e) {
+		    e.printStackTrace();
+		}
+		System.out.println("Stopping Server");
+		myServer.stop();
+	}
 }
