@@ -11,6 +11,8 @@ public class D_message {
 		private Pair message;  // the raw message that contains fromNode, toNode, and messageContent
 		private int from;
 		private int to;
+		
+		Queue<String> myQueue = new LinkedList<String>();
 
 		public D_message(int deli, int d, Pair m, int f, int t) {
 			deliveryTime = deli;
