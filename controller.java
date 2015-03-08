@@ -40,7 +40,7 @@ public class controller {
 	
 	
 	
-	public static void deliver(int from, int to, Pair m) {
+	public static void startListener(int from, int to, Pair m) {
 		
 		try (
 			Socket socket = new Socket("", portmap.get(to));
