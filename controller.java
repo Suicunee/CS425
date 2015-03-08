@@ -13,7 +13,7 @@ public class controller {
 	public static int controller_port;
 	public static int count_node;
 	public static HashMap<Integer,Integer> portmap = null;
-	public static HashMap<Integer,Integer> max_delay_map = null;
+	public static HashMap<Integer,HashMap<Integer,Integer>> max_delay_map = null;
 	
 	
 	
@@ -21,13 +21,13 @@ public class controller {
 	public static HashMap<Integer,HashMap<Integer,Channel>> channelTable;
 	private static String configuration_file = "setup.txt";
 	
-	public static int getRandomR(boolean sendByChannel, int to) {
+	public static int getRandomR(boolean sendByChannel, int from, int to) {
 		Random rand;
 		if (sendByChannel == false)
 			return 0;
 		else
 			rand = new Random();
-			int randomNumber = rand.nextInt(max_delay_map.get(to) - 0) + 0;
+			int randomNumber = rand.nextInt(max_delay_map.get(from).get(to) - 0) + 0;
 	        if(randomNumber == 0) {
 	            return  1;
 	        }
@@ -61,11 +61,11 @@ public static void main(String[] args) {
 		controller_port=XX
 		count_node=XX
 		ports_assign=XX;XX...
-		max_delay=XX;XX...
+		max_delay=XX,XX,XX;XX,XX,XX;...
 		 */
 	
 		portmap = new HashMap<Integer, Integer>();
-		
+		max_delay_map= new HashMap<Integer,HashMap<Integer,Integer>>();
 		try (BufferedReader fd = new BufferedReader(new FileReader(configuration_file))) {
 			String line;
 			line = fd.readLine();
@@ -83,8 +83,14 @@ public static void main(String[] args) {
 				}
 				if (split[0].equals("max_delay")) {
 					String[] subsplit = split[1].split(";");
+					String[] subsubsplit;
 					for (int i=0; i<subsplit.length; i++) {
-						max_delay_map.put(i, Integer.parseInt(subsplit[i]));
+						max_delay_map.put(i, new HashMap<Integer,Integer>());
+						subsubsplit = subsplit[i].split(",");
+						for (int j=0; i<subsubsplit.length; j++)
+							max_delay_map.get(i).put(j, Integer.parseInt(subsubsplit[j]));
+						
+						
 					}
 				}
 				// add more parameters here
@@ -121,6 +127,9 @@ public static void main(String[] args) {
 	}
 }
 	
+	
+
+
 	
 
 
